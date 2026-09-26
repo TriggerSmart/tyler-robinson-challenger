@@ -3,8 +3,8 @@ THE CHALLENGER — FINAL REBUILT LIVESTREAM PACKAGE
 Contents:
 - CHALLENGER_FINAL_LIVESTREAM_SCRIPT.txt — finalized script. The spoken narration is exactly 6,500 words when bracketed production notes, links, title, and section headings are excluded.
 - index.html — run-of-show source console. Resources appear in the same order as the finalized script.
-- gallery.html — separate bundled picture gallery with all 20 uploaded originals.
-- assets/images/originals/ — byte-preserved website copies of the 20 uploaded images.
+- gallery.html — separate bundled picture gallery with all 23 uploaded originals.
+- assets/images/originals/ — byte-preserved website copies of the 23 uploaded images.
 - assets/images/thumbs/ — optimized gallery thumbnails.
 - assets/js/gallery.js — OpenSeadragon integration plus a local fallback viewer.
 - docs/ — highlighted warrant excerpt PDFs carried forward from the prior build.
