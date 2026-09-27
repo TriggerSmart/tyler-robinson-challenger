@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>The Challenger — Route & ALPR Map</title>
+<link rel="stylesheet" href="assets/css/site.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3ynxJSmhHfyQl0i7Wv8GzXvG00G8=" crossorigin=""/>
+<style>
+.map-hero{padding:34px 0 18px}.map-hero h1{font-size:clamp(2rem,5vw,4rem);margin:.4rem 0 .7rem}.map-note{border:1px solid #5a4635;background:#17120f;border-radius:12px;padding:12px 14px;color:#dccabb;margin:14px 0}.map-layout{display:grid;grid-template-columns:330px minmax(0,1fr);gap:14px;margin-bottom:46px}.map-panel{border:1px solid var(--line);border-radius:14px;background:#10151c;padding:14px;max-height:78vh;overflow:auto}.map-panel h3{margin:0 0 8px}.map-panel p{color:var(--muted);font-size:.82rem}.map-card{border:1px solid #2d3744;background:#141a22;border-radius:10px;padding:10px;margin:9px 0}.map-card strong{display:block;font-size:.87rem}.map-card small{color:var(--muted)}.map-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.map-actions a,.map-actions button{font-size:.76rem}.map-stat{display:grid;grid-template-columns:1fr auto;gap:8px;border-bottom:1px solid #252d38;padding:6px 0;font-size:.8rem}.map-stat:last-child{border-bottom:0}.map-stat span:last-child{font-weight:800}.layer-row{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:.82rem}.swatch{width:14px;height:5px;border-radius:3px;display:inline-block}.dot{width:10px;height:10px;border-radius:50%;display:inline-block}.status-pill{display:inline-block;padding:4px 8px;border:1px solid #3d4958;border-radius:999px;color:#b7c4d3;font-size:.73rem}.status-pill.good{border-color:#2b6d47;color:#79dda0}.status-pill.warn{border-color:#80622d;color:#f2c66e}#routeMap{height:78vh;min-height:640px;border:1px solid var(--line);border-radius:14px;background:#080b0f}.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:#111821;color:#edf2f6}.leaflet-popup-content{font-family:Inter,system-ui,sans-serif;font-size:12px}.leaflet-control-layers{background:#10151c!important;color:#eaf0f5!important;border:1px solid #394454!important}.route-label{background:#111821;color:#fff;border:1px solid #445064;border-radius:6px;padding:3px 6px;font-weight:800;font-size:11px;white-space:nowrap}.sources-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:20px 0 60px}.source-card{border:1px solid var(--line);background:#11161d;border-radius:12px;padding:13px}.source-card h3{font-size:.94rem;margin:0 0 6px}.source-card p{color:var(--muted);font-size:.8rem}.source-card a{font-size:.78rem}@media(max-width:980px){.map-layout{grid-template-columns:1fr}.map-panel{max-height:none}#routeMap{height:70vh;min-height:520px}}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="wrap"><div class="brand">TRIGGER<span>SMART</span> / ROUTE MAP</div><nav class="nav"><a class="btn subtle" href="index.html">Source archive</a><a class="btn subtle" href="gallery.html">Picture gallery</a></nav></div></header>
+<main><div class="wrap">
+<section class="map-hero">
+<div class="kicker">Route + camera overlay</div>
+<h1>Challenger Route & ALPR Map</h1>
+<p style="color:var(--muted);max-width:940px">An interactive route map combining the travel endpoints described in the public case record with the current OpenStreetMap/DeFlock ALPR camera layer for Utah. Route lines are reconstructed on current roads from the disclosed endpoints; the public warrant excerpts reviewed for this project do not publish a turn-by-turn GPS breadcrumb trail for the full St. George–Orem drive.</p>
+<div class="map-note"><strong>Evidence distinction:</strong> red, orange, and blue routes represent warrant/court-described endpoints reconstructed over current roads. The purple route connects separately reported locations from the livestream, including Panguitch and the Cedar City Maverik. Camera markers are <strong>current community-mapped ALPR locations</strong>, not proof that the same camera was installed or operating on September 10–11, 2025.</div>
+</section>
+<div class="map-layout">
+<aside class="map-panel">
+<h3>Route layers</h3>
+<div class="layer-row"><span class="swatch" style="background:#ff4b4b"></span><label><input id="toggleMorning" type="checkbox" checked/> Morning: St. George → UVU</label></div>
+<div class="layer-row"><span class="swatch" style="background:#ff9a3d"></span><label><input id="toggleQuick" type="checkbox" checked/> 12:46 stored route: Mountain Shadows → Quick Quack</label></div>
+<div class="layer-row"><span class="swatch" style="background:#66b3ff"></span><label><input id="toggleReturn" type="checkbox" checked/> 1:33 stored route: UVU area → St. George</label></div>
+<div class="layer-row"><span class="swatch" style="background:#c47cff"></span><label><input id="toggleReported" type="checkbox"/> Reported-location sequence: Panguitch / Orem / Cedar City</label></div>
+
+<div class="map-card"><strong>Google Maps</strong><small>These open Google Maps with the same route endpoints.</small><div class="map-actions"><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=3419%20S%20River%20Rd%2C%20St%20George%2C%20UT&destination=Utah%20Valley%20University%2C%20800%20W%20University%20Pkwy%2C%20Orem%2C%20UT&travelmode=driving">Morning route</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=Mountain%20Shadows%20Shopping%20Center%2C%20Orem%2C%20UT&destination=Quick%20Quack%20Car%20Wash%2C%20855%20N%20State%20St%2C%20Orem%2C%20UT&travelmode=driving">Quick Quack route</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=Utah%20Valley%20University%2C%20Orem%2C%20UT&destination=3419%20S%20River%20Rd%2C%20St%20George%2C%20UT&travelmode=driving">Return route</a><a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&origin=Orem%2C%20UT&destination=3419%20S%20River%20Rd%2C%20St%20George%2C%20UT&waypoints=Cowboy%27s%20Smokehouse%2C%2080%20N%20Main%20St%2C%20Panguitch%2C%20UT%7CCampus%20Drive%20and%20800%20South%2C%20Orem%2C%20UT%7CMaverik%2C%201405%20S%20Main%20St%2C%20Cedar%20City%2C%20UT&travelmode=driving">Reported anchors</a></div></div>
+
+<div class="map-card"><strong>Google Earth / My Maps export</strong><small>The KML export includes loaded routes and current ALPR camera points. The CSV export contains the camera markers for Google My Maps.</small><div class="map-actions"><button class="btn primary" id="downloadKml">Download KML</button><button class="btn" id="downloadCsv">Download camera CSV</button><a class="btn" href="https://earth.google.com/web/" target="_blank" rel="noopener">Open Google Earth</a><a class="btn" href="https://www.google.com/maps/d/" target="_blank" rel="noopener">Open Google My Maps</a></div></div>
+
+<h3 style="margin-top:18px">Current ALPR layer</h3>
+<div class="layer-row"><span class="dot" style="background:#ff3d3d"></span><label><input id="toggleFlock" type="checkbox" checked/> Flock Safety</label></div>
+<div class="layer-row"><span class="dot" style="background:#ffb343"></span><label><input id="toggleOther" type="checkbox" checked/> Other ALPR vendors</label></div>
+<div class="layer-row"><span class="dot" style="background:#ffe05c;box-shadow:0 0 0 3px rgba(255,224,92,.22)"></span><label><input id="toggleNear" type="checkbox" checked/> Cameras within 500 m of a displayed route</label></div>
+<div class="map-actions"><button class="btn primary" id="reloadCameras">Reload current camera data</button></div>
+<p><span id="cameraStatus" class="status-pill">Waiting to load cameras…</span></p>
+<div id="cameraStats">
+<div class="map-stat"><span>Utah source total</span><span>1,009</span></div>
+<div class="map-stat"><span>Orem</span><span>18</span></div>
+<div class="map-stat"><span>Provo</span><span>57</span></div>
+<div class="map-stat"><span>Cedar City</span><span>41</span></div>
+<div class="map-stat"><span>St. George</span><span>31</span></div>
+<div class="map-stat"><span>Washington</span><span>7</span></div>
+<div class="map-stat"><span>Garfield County</span><span>7</span></div>
+<div class="map-stat"><span>Loaded on this map</span><span id="loadedCount">—</span></div>
+<div class="map-stat"><span>Near displayed routes ≤500 m</span><span id="nearCount">—</span></div>
+</div>
+</aside>
+<div id="routeMap" aria-label="Interactive Challenger route and ALPR map"></div>
+</div>
+
+<section>
+<div class="kicker">Route anchors</div>
+<h2>What each line represents</h2>
+<div class="sources-grid">
+<div class="source-card"><h3>Morning St. George → UVU</h3><p>The court record says Robinson left the St. George residence in the early morning and traveled to Utah Valley University, where a gray Challenger attributed to him entered the campus garage around 8:29–8:30 a.m. The public text does not specify every road or turn.</p></div>
+<div class="source-card"><h3>12:46 Mountain Shadows → Quick Quack</h3><p>A later warrant affidavit says a stored Google Maps route began near Mountain Shadows Shopping Center around 12:46 p.m. and ran to Quick Quack Car Wash at 855 N State St in Orem; investigators said the Challenger arrived around 12:57.</p></div>
+<div class="source-card"><h3>1:33 UVU-area → St. George</h3><p>The same affidavit describes a second stored Google Maps route beginning around 1:33 a.m. September 11 from a neighborhood north of, and near, the rifle-recovery area by UVU, with the St. George residence as the destination.</p></div>
+<div class="source-card"><h3>Panguitch / Cedar City</h3><p>The Panguitch restaurant stop is a separately reported and disputed location from the livestream rather than a warrant route endpoint. The Cedar City Maverik stop is supported by surveillance reporting around 7:15 a.m. September 11.</p></div>
+</div>
+</section>
+
+<section>
+<div class="kicker">Map sources</div>
+<h2>Underlying records and camera maps</h2>
+<div class="sources-grid">
+<div class="source-card"><h3>Warrant route reporting</h3><p>Contains the quoted affidavit language describing the 12:46 Mountain Shadows-to-Quick-Quack route and the 1:33 UVU-area-to-St.-George route.</p><a href="https://thepostmillennial.com/tyler-robinson-mapped-route-from-utah-valley-university-back-to-his-st-george-home-after-charlie-kirk-killing-search-warrant" target="_blank" rel="noopener">Open source</a></div>
+<div class="source-card"><h3>Final preliminary-hearing transcript</h3><p>Contains the State's description of the early-morning St. George-to-UVU travel and the morning garage arrival.</p><a href="https://www.rev.com/transcripts/ut-v-tyler-robinson-final-preliminary-hearing" target="_blank" rel="noopener">Open source</a></div>
+<div class="source-card"><h3>Quick Quack — 855 N State St</h3><p>The car wash's official location page confirms the Orem address used as the destination in the warrant-described route.</p><a href="https://www.quickquack.com/locations/ut/orem/84057-orem" target="_blank" rel="noopener">Open source</a></div>
+<div class="source-card"><h3>Utah ALPR map</h3><p>FlockCamera.app reports 1,009 current community-mapped ALPR locations statewide, sourced from OpenStreetMap/DeFlock data.</p><a href="https://flockcamera.app/locations/utah/" target="_blank" rel="noopener">Open source</a></div>
+<div class="source-card"><h3>Orem camera map</h3><p>The current map lists 18 documented ALPR locations in Orem, 17 tagged as Flock Safety.</p><a href="https://flockcamera.app/locations/utah/orem/" target="_blank" rel="noopener">Open source</a></div>
+<div class="source-card"><h3>Provo camera map</h3><p>The current map lists 57 documented ALPR locations in Provo.</p><a href="https://flockcamera.app/locations/utah/provo/" target="_blank" rel="noopener">Open source</a></div>
+<div class="source-card"><h3>Cedar City camera map</h3><p>The current map lists 41 documented ALPR locations in Cedar City, all tagged as Flock Safety.</p><a href="https://flockcamera.app/locations/utah/cedar-city/" target="_blank" rel="noopener">Open source</a></div>
+<div class="source-card"><h3>St. George camera map</h3><p>The current map lists 31 documented ALPR locations in St. George, including Flock Safety and Motorola Solutions readers.</p><a href="https://flockcamera.app/locations/utah/st-george/" target="_blank" rel="noopener">Open source</a></div>
+<div class="source-card"><h3>Garfield County camera map</h3><p>DeFlock The USA reports seven current volunteer-mapped ALPR locations across Garfield County, which includes Panguitch.</p><a href="https://deflocktheusa.com/flock-cameras/utah/garfield-county/" target="_blank" rel="noopener">Open source</a></div>
+<div class="source-card"><h3>OpenStreetMap ALPR tagging</h3><p>The live camera layer uses OpenStreetMap nodes tagged man_made=surveillance and surveillance:type=ALPR, including manufacturer and direction when volunteers recorded them.</p><a href="https://wiki.openstreetmap.org/wiki/Tag:surveillance:type%3DALPR" target="_blank" rel="noopener">Open source</a></div>
+</div>
+</section>
+</div></main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"></script>
+<script src="assets/js/route-map.js"></script>
+</body></html>
