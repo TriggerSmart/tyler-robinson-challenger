@@ -10,3 +10,29 @@ a{color:inherit}.wrap{max-width:1240px;margin:auto;padding:0 22px}.topbar{positi
 .blurWrap{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-left:8px}.blurWrap label{font-size:.85rem;color:#c7d0dc;font-weight:700}.blurWrap input[type=range]{width:170px;accent-color:var(--accent)}#blurValue{font-size:.82rem;color:#d2d8e0;min-width:3.4rem;text-align:right}@media(max-width:860px){.viewerTop{height:auto;flex-wrap:wrap;align-items:center}.viewerTitle{order:10;flex:1 1 100%;white-space:normal}.blurWrap{width:100%;margin-left:0;padding-top:4px}}
 
 .filter-defs{position:absolute;width:0;height:0;overflow:hidden}.imageControls{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-left:8px;padding:3px 0}.controlGroup{display:grid;grid-template-columns:auto 118px auto;align-items:center;gap:6px;padding:4px 7px;border:1px solid #303947;border-radius:9px;background:#131820}.controlGroup label{font-size:.75rem;color:#c7d0dc;font-weight:750}.controlGroup input[type=range]{width:118px;accent-color:var(--accent)}.controlGroup span{font-size:.72rem;color:#d2d8e0;min-width:43px;text-align:right;font-variant-numeric:tabular-nums}@media(max-width:1100px){.viewerTop{height:auto;flex-wrap:wrap}.viewerTitle{order:20;flex:1 1 100%;white-space:normal}.imageControls{order:30;width:100%;margin-left:0}}@media(max-width:680px){.controlGroup{grid-template-columns:72px minmax(110px,1fr) 48px;flex:1 1 100%}.controlGroup input[type=range]{width:100%}}
+
+/* Fixed viewer layout and persistent whole-image adjustment controls */
+.viewerTop{min-height:58px;height:auto;display:flex;align-items:center;gap:10px;padding:8px 12px;flex:0 0 auto}
+.viewerTitle{flex:1 1 auto;min-width:180px}
+.viewerButtons{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.viewerControlsBar{display:grid;grid-template-columns:repeat(4,minmax(190px,1fr)) auto;gap:10px;align-items:center;padding:10px 12px;background:#11161d;border-bottom:1px solid #2a3340;flex:0 0 auto}
+.viewerControlsBar .controlGroup{display:grid;grid-template-columns:auto minmax(90px,1fr) 50px;gap:8px;align-items:center;background:#171d26;border:1px solid #394556;border-radius:10px;padding:8px 10px}
+.viewerControlsBar .controlGroup label{font-size:.76rem;font-weight:800;color:#d4dbe4}
+.viewerControlsBar .controlGroup input[type=range]{width:100%;min-width:90px;accent-color:var(--accent)}
+.viewerControlsBar .controlGroup span{font-size:.75rem;color:#d4dbe4;text-align:right;font-variant-numeric:tabular-nums}
+.resetAdjustmentsBtn{white-space:nowrap}
+.viewerArea{position:relative;flex:1 1 auto;min-height:0;overflow:hidden;background:#000}
+.mediaFilterStage,.sharpenStage{position:absolute;inset:0;transform:translateZ(0);will-change:filter}
+.sharpenStage{overflow:hidden}
+#osdViewer,.fallback{position:absolute;inset:0}
+@media(max-width:1180px){
+  .viewerControlsBar{grid-template-columns:repeat(2,minmax(220px,1fr)) auto}
+}
+@media(max-width:760px){
+  .viewerTop{align-items:flex-start;flex-wrap:wrap}
+  .viewerTitle{order:1;flex:1 1 calc(100% - 90px)}
+  .viewerButtons{order:3;flex:1 1 100%;justify-content:flex-start}
+  .viewerControlsBar{grid-template-columns:1fr;padding:8px}
+  .viewerControlsBar .controlGroup{grid-template-columns:78px minmax(120px,1fr) 50px}
+  .resetAdjustmentsBtn{width:100%}
+}
